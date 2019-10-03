@@ -2,6 +2,17 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+//const axios = require('axios');
+const githubData = axios.get('https://api.github.com/users/ikeman32')
+    .then(response => {
+
+        document.querySelector('.cards')
+            .appendChild(myGithub(response.data));
+
+    });
+
+
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -45,6 +56,60 @@ const followersArray = [];
 </div>
 
 */
+function myGithub(userData) {
+    //create elements
+    const
+        newImg = document.createElement('img'),
+        newCard = document.createElement('div'),
+        newInfo = document.createElement('div'),
+        newName = document.createElement('h3'),
+        newUserName = document.createElement('p'),
+        newLocation = document.createElement('p'),
+        newProfile = document.createElement('p'),
+        newAddress = document.createElement('a'),
+        newFollowers = document.createElement('p'),
+        newFollowing = document.createElement('p'),
+        newBio = document.createElement('p');
+
+    //create classes
+    newCard.classList.add('card');
+    newInfo.classList.add('card-info');
+    newName.classList.add('name');
+    newUserName.classList.add('username');
+
+    //appendChild
+    newCard.appendChild(newImg);
+    newCard.appendChild(newInfo);
+
+    newProfile.appendChild(newAddress);
+
+    newInfo.appendChild(newName);
+    newInfo.appendChild(newUserName);
+    newInfo.appendChild(newLocation);
+    newInfo.appendChild(newProfile);
+    newInfo.appendChild(newAddress);
+    newInfo.appendChild(newFollowers);
+    newInfo.appendChild(newFollowing);
+    newInfo.appendChild(newBio);
+
+    //set data
+
+    newName.textContent = userData.name;
+    newImg.src = userData.avatar_url;
+    newUserName.textContent = userData.login;
+    newLocation.textContent = userData.location;
+    newProfile.textContent = `Profile: ${userData.html_url}`;
+    newAddress.href = userData.html_url;
+    newFollowers.textContent = `Followers: ${userData.followers}`;
+    newFollowing.textContent = `Following: ${userData.following}`;
+    newBio.textContent = `Bio: ${userData.bio}`;
+    //console.log(newCard);
+    return newCard;
+}
+
+//const me = document.querySelector('cards').appendChild(githubData);
+
+//me.appendChild(githubData);
 
 /* List of LS Instructors Github username's: 
   tetondan
