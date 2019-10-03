@@ -9,6 +9,8 @@ const githubData = axios.get('https://api.github.com/users/ikeman32')
         document.querySelector('.cards')
             .appendChild(myGithub(response.data));
 
+        //console.log(response.data);
+
     });
 
 
@@ -35,7 +37,44 @@ const githubData = axios.get('https://api.github.com/users/ikeman32')
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+//My solution that does not need the followers array
+axios.get('https://api.github.com/users/ikeman32/followers')
+    .then(response => {
+        for (let i = 0; i < response.data.length; i++) {
+            //response.data[i].login
+            axios.get(`https://api.github.com/users/${response.data[i].login}`)
+                .then(response => {
+
+                    document.querySelector('.cards')
+                        .appendChild(myGithub(response.data));
+
+                    //console.log(response.data);
+
+                });
+        }
+
+    });
+
+//Solution that uses the followers array
+
+// for (let i = 0; i < followersArray.length; i++) {
+//     //response.data[i].login
+//     axios.get(`https://api.github.com/users/${followersArray[i]}`)
+//         .then(response => {
+
+//             document.querySelector('.cards')
+//                 .appendChild(myGithub(response.data));
+
+//             //console.log(response.data);
+
+//         });
+// }
+
+
+
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -103,13 +142,10 @@ function myGithub(userData) {
     newFollowers.textContent = `Followers: ${userData.followers}`;
     newFollowing.textContent = `Following: ${userData.following}`;
     newBio.textContent = `Bio: ${userData.bio}`;
-    //console.log(newCard);
+
     return newCard;
 }
 
-//const me = document.querySelector('cards').appendChild(githubData);
-
-//me.appendChild(githubData);
 
 /* List of LS Instructors Github username's: 
   tetondan
